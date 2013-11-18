@@ -123,6 +123,7 @@ if (isset($_POST['zipcode'])) {
 }
 
 session_start();
+
 if (isset($_POST['first_name'])) {
     $_SESSION["first_name"] = trim(strip_tags($_POST['first_name']));
 }
@@ -153,8 +154,6 @@ if (isset($_POST['zipcode'])) {
 if (isset($_POST['zipext'])) {
     $_SESSION["zipext"] = trim(strip_tags($_POST['zipext']));
 }
-
-    
     
 ?>
 <html>
@@ -165,13 +164,26 @@ if (isset($_POST['zipext'])) {
         function resetForm() {
             document.forms['main_form'].first_name.value = '';
             document.forms['main_form'].last_name.value = '';
-            document.forms['main_form'].user_id.value = '';
-            document.forms['main_form'].user_id_hidden.value = '';
-            document.forms['main_form'].admin.checked = false;
+            document.forms['main_form'].middle_initial.value = '';
+            document.forms['main_form'].phone_number.value = '';
+            document.forms['main_form'].address.value = '';
+            document.forms['main_form'].apt.value = '';
+            document.forms['main_form'].town.value = '';
+            document.forms['main_form'].state.value = '';
+            document.forms['main_form'].zipcode.value = '';
+            document.forms['main_form'].zipext.value = '';
+
             document.getElementById('firstNameError').innerHTML = "";
             document.getElementById('lastNameError').innerHTML = "";
-            document.getElementById('passwordError').innerHTML = "";
-            document.getElementById('errorMessage').innerHTML = "";
+            document.getElementById('middleInitialError').innerHTML = "";
+            document.getElementById('phoneError').innerHTML = "";
+            document.getElementById('aptError').innerHTML = "";
+            document.getElementById('addressError').innerHTML = "";
+            document.getElementById('townError').innerHTML = "";
+            document.getElementById('stateError').innerHTML = "";
+            document.getElementById('zipcodeError').innerHTML = "";
+            document.getElementById('zipextError').innerHTML = "";
+
         }
     // -->
     </script>
@@ -182,58 +194,82 @@ if (isset($_POST['zipext'])) {
       <tr>
         <td>First name</td>
         <td><input type="text" name="first_name" value="<?php if (isset($_SESSION["first_name"])) echo $_SESSION["first_name"]; ?>" maxlength="30" /></td>
-           <td id="firstNameError"><?php
-            if ($firstNameReturnCode == BLANK) {
-                echo "&nbsp;First name is required.";
-            } elseif ($firstNameReturnCode == TOO_LONG) {
-                echo "&nbsp;First name is too long. Should not be more than 30 characters.";
-            }?>
+        <td id="firstNameError"><?php
+            displayLengthError($firstNameReturnCode, "First name", 30);
+            ?>
+        </td>
+     </tr>
+     <tr>
+       <td>Last name</td>
+       <td><input type="text" name="last_name" value="<?php if (isset($_SESSION["last_name"])) echo $_SESSION["last_name"]; ?>" maxlength="255" /></td>
+       <td id="lastNameError"> <?php
+            displayLengthError($lastNameReturnCode, "Last name", 255);
+            ?>
+       </td>
+    </tr>
+         <tr>
+             <td>Middle initial</td>
+             <td><input type="text" name="middle_initial" value="<?php if (isset($_SESSION["middle_initial"])) echo $_SESSION["middle_initial"]; ?>" maxlength="30" /></td>
+             <td id="middleInitialError"> <?php
+            displayLengthError($middleInitialReturnCode, "Middle initial", 30);
+            ?>
            </td>
          </tr>
          <tr>
-             <td>Last name</td>
-             <td><input type="text" name="last_name" value"<?php if (isset($_SESSION["last_name"])) echo $_SESSION["last_name"]; ?>" maxlength="255" /></td>
-             <td></td>
-         </tr>
-         <tr>
-             <td>Middle initial</td>
-             <td><input type="text" name="middle_initial" value"<?php if (isset($_SESSION["middle_initial"])) echo $_SESSION["middle_initial"]; ?>" maxlength="30" /></td>
-             <td></td>
-         </tr>
-         <tr>
              <td>Phone number</td>
-             <td><input type="text" name="phone_number" value"<?php if (isset($_SESSION["phone_number"])) echo $_SESSION["phone_number"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="phone_number" value="<?php if (isset($_SESSION["phone_number"])) echo $_SESSION["phone_number"]; ?>" maxlength="30" /></td>
+             <td id="phoneError"> <?php
+            displayLengthError($phoneReturnCode, "Phone number", 30);
+            ?>
+           </td>
          </tr>
          <tr>
              <td>Apt</td>
-             <td><input type="text" name="apt" value"<?php if (isset($_SESSION["apt"])) echo $_SESSION["apt"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="apt" value="<?php if (isset($_SESSION["apt"])) echo $_SESSION["apt"]; ?>" maxlength="30" /></td>
+             <td id="aptError"> <?php
+            displayLengthError($aptReturnCode, "Apartment number", 30);
+            ?>
+           </td>
          </tr>
       <tr>
              <td>Address</td>
-             <td><input type="text" name="address" value"<?php if (isset($_SESSION["address"])) echo $_SESSION["address"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="address" value="<?php if (isset($_SESSION["address"])) echo $_SESSION["address"]; ?>" maxlength="30" /></td>
+             <td id="addressError"> <?php
+            displayLengthError($addressReturnCode, "Address", 30);
+            ?>
+           </td>
          </tr>
          <tr>
              <td>Town</td>
-             <td><input type="text" name="town" value"<?php if (isset($_SESSION["town"])) echo $_SESSION["town"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="town" value="<?php if (isset($_SESSION["town"])) echo $_SESSION["town"]; ?>" maxlength="30" /></td>
+             <td id="townError"> <?php
+            displayLengthError($townReturnCode, "Town", 30);
+            ?>
+           </td>
          </tr>
          <tr>
              <td>State</td>
-             <td><input type="text" name="state" value"<?php if (isset($_SESSION["state"])) echo $_SESSION["state"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="state" value="<?php if (isset($_SESSION["state"])) echo $_SESSION["state"]; ?>" maxlength="30" /></td>
+             <td id="stateError"> <?php
+            displayLengthError($stateReturnCode, "State", 30);
+            ?>
+           </td>
          </tr>
          <tr>
              <td>Zipcode</td>
-             <td><input type="text" name="zipcode" value"<?php if (isset($_SESSION["zipcode"])) echo $_SESSION["zipcode"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="zipcode" value="<?php if (isset($_SESSION["zipcode"])) echo $_SESSION["zipcode"]; ?>" maxlength="30" /></td>
+             <td id="zipcodeError"> <?php
+            displayLengthError($zipcodeReturnCode, "Zipcode", 30);
+            ?>
+           </td>
          </tr>
          <tr>
              <td>Zipcode extension</td>
-             <td><input type="text" name="zipext" value"<?php if (isset($_SESSION["zipext"])) echo $_SESSION["zipext"]; ?>" maxlength="30" /></td>
-             <td></td>
+             <td><input type="text" name="zipext" value="<?php if (isset($_SESSION["zipext"])) echo $_SESSION["zipext"]; ?>" maxlength="30" /></td>
+             <td id="zipextError"> <?php
+            displayLengthError($zipcodeReturnCode, "Zipcode extension", 30);
+            ?>
+           </td>
          </tr>
          <tr>
         <td colspan="2">
